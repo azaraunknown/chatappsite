@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "site": "fancy-chat-app-azara",
+    "public": "./build/",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

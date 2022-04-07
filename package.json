@@ -1,5 +1,6 @@
 {
   "name": "chatapp",
+  "homepage": "https://fancy-chat-app-azara.web.app/",
   "version": "1.0.0",
   "engines": {
     "node": "16.x"
