@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { db, auth } from "../firebase.js";
 import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
 import { Input, Button } from "@material-ui/core";
 
 function SendMessage({ scroll }) {
@@ -8,16 +9,15 @@ function SendMessage({ scroll }) {
 
   async function sendMessage(e) {
     e.preventDefault();
-    const { uid, photoURL } = auth.currentUser;
-
+    const { uid, photoURL, displayName } = auth.currentUser;
     await db.collection("messages").add({
       text: msg,
+      name: displayName,
       photoURL,
       uid,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
     setMsg("");
-    scroll.current.scrollIntoView({ behavior: "smooth" });
   }
   return (
     <div>
