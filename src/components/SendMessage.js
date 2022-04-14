@@ -9,12 +9,14 @@ function SendMessage({ scroll }) {
 
   async function sendMessage(e) {
     e.preventDefault();
+    if(msg.trim() === "") return;
     const { uid, photoURL, displayName } = auth.currentUser;
     await db.collection("messages").add({
       text: msg,
       name: displayName,
       photoURL,
       uid,
+      type: "text",
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
     setMsg("");

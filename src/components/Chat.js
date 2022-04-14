@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
 import SendMessage from "./SendMessage";
 import SignOut from "./SignOut";
+import UploadImage from "./imageUpload";
+import AdminUI from "./AdminUI";
 
 function Chat() {
   const [messages, setMessages] = useState([]);
@@ -16,15 +18,18 @@ function Chat() {
   return (
     <div>
       <SignOut />
-      {messages.map(({ id, text, photoURL, name, uid}) => (
+      <AdminUI />
+      {messages.map(({ id, text, photoURL, name, uid, type}) => (
         <div key={id}>
           <p>{name}</p>
           <img src={photoURL} alt="User Profile" />
-          <p>{text}</p>
+          <br />
+          {type == "image" ? <img src={text} alt="Message" /> : <p>{text}</p>}
+          <br />
           <span>{uid}</span>
         </div>
       ))}
-      <SendMessage />
+      <SendMessage /><UploadImage />
     </div>
   );
 }

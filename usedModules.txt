@@ -1,0 +1,6 @@
+@material-ui/core
+react
+react-dom
+react-firebase-hooks
+react-icons
+react-scripts

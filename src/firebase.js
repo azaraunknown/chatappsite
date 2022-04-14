@@ -1,6 +1,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+import "firebase/compat/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAIoDr7vYluX7HjWrVB5bOwD5_D9yTo2PA",
@@ -8,13 +9,13 @@ const firebaseConfig = {
   projectId: "fancy-chat-app-azara",
   storageBucket: "fancy-chat-app-azara.appspot.com",
   messagingSenderId: "925848375019",
-  appId: "1:925848375019:web:c423b149c98b856ca338ae",
-  measurementId: "G-43J7DBNKFR",
+  appId: "1:925848375019:web:6a07ce61fc39fd7fa338ae",
+  measurementId: "G-6SFKHQ6BYV"
 };
 
-const firebaseApp = firebase.initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
 
-const db = firebaseApp.firestore();
-const auth = firebaseApp.auth();
+const db = app.firestore();
+const auth = app.auth();
 
-export { auth, db };
+export { auth, db, app};
