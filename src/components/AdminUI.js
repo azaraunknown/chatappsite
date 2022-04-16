@@ -13,7 +13,7 @@ function AdminUI() {
                 setIsAdmin(false);
             }
         });
-    }, []);
+    }, [currentUser.uid]);
     if (isAdmin) {
         return <AdminPanel />;
     } else {

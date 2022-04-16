@@ -9,16 +9,42 @@ function SendMessage({ scroll }) {
 
   async function sendMessage(e) {
     e.preventDefault();
-    if(msg.trim() === "") return;
+    if (msg.trim() === "") return;
+    if (msg.length > 255) {
+      alert("Message is too long");
+      return;
+    }
     const { uid, photoURL, displayName } = auth.currentUser;
-    await db.collection("messages").add({
-      text: msg,
-      name: displayName,
-      photoURL,
-      uid,
-      type: "text",
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    });
+    const banned = await db.collection("banned").doc(uid).get();
+    if (banned.exists) {
+      return alert("You are not allowed to send messages as you are banned");
+    }
+    db.collection("administrators")
+      .doc(uid)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          db.collection("messages").add({
+            text: msg,
+            name: displayName,
+            photoURL,
+            uid,
+            type: "text",
+            role: "admin",
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+        } else {
+          db.collection("messages").add({
+            text: msg,
+            name: displayName,
+            photoURL,
+            uid,
+            type: "text",
+            role: "user",
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+        }
+      });
     setMsg("");
   }
   return (

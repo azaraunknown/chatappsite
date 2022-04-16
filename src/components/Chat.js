@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { db, auth } from "../firebase";
+import { db } from "../firebase";
 import SendMessage from "./SendMessage";
 import SignOut from "./SignOut";
 import UploadImage from "./imageUpload";
 import AdminUI from "./AdminUI";
 
 function Chat() {
+  const adminStyle = {
+    fontWeight: "bold",
+    color: "red",
+  };
+
+  const systemStyle = {
+    fontWeight: "bold",
+    color: "blues",
+  };
+
   const [messages, setMessages] = useState([]);
   useEffect(() => {
     db.collection("messages")
@@ -19,12 +29,13 @@ function Chat() {
     <div>
       <SignOut />
       <AdminUI />
-      {messages.map(({ id, text, photoURL, name, uid, type}) => (
+      {messages.map(({ id, text, photoURL, name, uid, type, role}) => (
         <div key={id}>
-          <p>{name}</p>
+          {uid === "system" ? <p style={systemStyle}>{name}</p> : null}
+          {uid !== "system" && role === "admin" ? <p style={adminStyle}>{name}</p> : <p>{name}</p>}
           <img src={photoURL} alt="User Profile" />
           <br />
-          {type == "image" ? <img src={text} alt="Message" /> : <p>{text}</p>}
+          {type === "image" ? <img src={text} alt="Message" /> : <p>{text}</p>}
           <br />
           <span>{uid}</span>
         </div>
