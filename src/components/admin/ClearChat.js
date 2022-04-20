@@ -19,15 +19,17 @@ function ClearChat() {
           variant="contained"
           color="secondary"
           onClick={() => {
-            if (input === "confirm") {
+            if (input === "Confirm") {
               db.collection("messages")
                 .get()
                 .then((snapshot) => {
                   snapshot.forEach((doc) => {
                     doc.ref.delete();
                   });
+                })
+                .then(() => {
+                  alert("Chat Cleared");
                 });
-              alert("Chat cleared successfully");
             } else {
               alert("Make sure to confirm");
             }

@@ -6,7 +6,8 @@ import { Input, Button } from "@material-ui/core";
 
 function SendMessage({ scroll }) {
   const [msg, setMsg] = useState("");
-
+  const [image, setImage] = useState("");
+  const [name, setName] = useState("");
   async function sendMessage(e) {
     e.preventDefault();
     if (msg.trim() === "") return;
@@ -19,6 +20,15 @@ function SendMessage({ scroll }) {
     if (banned.exists) {
       return alert("You are not allowed to send messages as you are banned");
     }
+
+    // set image to photoURL in the user databse using the id
+    db.collection("users").doc(uid).get().then((doc) => {
+      alert(doc.data().photoURL);
+      setImage(`${doc.data().photoURL}`);
+      setName(`${doc.data().displayName}`);
+    });
+
+
     db.collection("administrators")
       .doc(uid)
       .get()
@@ -26,8 +36,8 @@ function SendMessage({ scroll }) {
         if (doc.exists) {
           db.collection("messages").add({
             text: msg,
-            name: displayName,
-            photoURL,
+            name: name,
+            photoURL: image,
             uid,
             type: "text",
             role: "admin",
@@ -37,7 +47,7 @@ function SendMessage({ scroll }) {
           db.collection("messages").add({
             text: msg,
             name: displayName,
-            photoURL,
+            photoURL: image,
             uid,
             type: "text",
             role: "user",

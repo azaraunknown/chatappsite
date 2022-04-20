@@ -4,8 +4,12 @@ import SendMessage from "./SendMessage";
 import SignOut from "./SignOut";
 import UploadImage from "./imageUpload";
 import AdminUI from "./AdminUI";
+import UserSettings from "./UserSettings";
 
 function Chat() {
+  const maxSize = {
+    size: 250
+  }
   const adminStyle = {
     fontWeight: "bold",
     color: "red",
@@ -28,12 +32,13 @@ function Chat() {
   return (
     <div>
       <SignOut />
+      <UserSettings />
       <AdminUI />
       {messages.map(({ id, text, photoURL, name, uid, type, role}) => (
         <div key={id}>
           {uid === "system" ? <p style={systemStyle}>{name}</p> : null}
           {uid !== "system" && role === "admin" ? <p style={adminStyle}>{name}</p> : <p>{name}</p>}
-          <img src={photoURL} alt="User Profile" />
+          <img src={photoURL} width={maxSize} height={maxSize} alt="User Profile" />
           <br />
           {type === "image" ? <img src={text} alt="Message" /> : <p>{text}</p>}
           <br />
