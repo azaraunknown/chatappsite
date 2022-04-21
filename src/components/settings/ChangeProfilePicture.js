@@ -1,3 +1,4 @@
+// File by: Griffin
 import React from "react";
 import { app, db, auth } from "../../firebase";
 import firebase from "firebase/compat/app";

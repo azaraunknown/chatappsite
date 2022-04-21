@@ -1,3 +1,4 @@
+// File by: Griffin
 import React, { useState } from "react";
 import { db, auth } from "../firebase.js";
 import firebase from "firebase/compat/app";
@@ -8,6 +9,8 @@ function SendMessage({ scroll }) {
   const [msg, setMsg] = useState("");
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
+  const [role, setRole] = useState("");
+
   async function sendMessage(e) {
     e.preventDefault();
     if (msg.trim() === "") return;
@@ -15,46 +18,42 @@ function SendMessage({ scroll }) {
       alert("Message is too long");
       return;
     }
-    const { uid, photoURL, displayName } = auth.currentUser;
+    const { uid } = auth.currentUser;
     const banned = await db.collection("banned").doc(uid).get();
     if (banned.exists) {
       return alert("You are not allowed to send messages as you are banned");
     }
+    await db
+      .collection("users")
+      .doc(uid)
+      .get()
+      .then((doc) => {
+        setImage(`${doc.data().photoURL}`);
+        setName(`${doc.data().displayName}`);
+      });
 
-    // set image to photoURL in the user databse using the id
-    db.collection("users").doc(uid).get().then((doc) => {
-      alert(doc.data().photoURL);
-      setImage(`${doc.data().photoURL}`);
-      setName(`${doc.data().displayName}`);
-    });
-
-
-    db.collection("administrators")
+    await db
+      .collection("administrators")
       .doc(uid)
       .get()
       .then((doc) => {
         if (doc.exists) {
-          db.collection("messages").add({
-            text: msg,
-            name: name,
-            photoURL: image,
-            uid,
-            type: "text",
-            role: "admin",
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          });
+          setRole("admin");
         } else {
-          db.collection("messages").add({
-            text: msg,
-            name: displayName,
-            photoURL: image,
-            uid,
-            type: "text",
-            role: "user",
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          });
+          setRole("user");
         }
       });
+
+    await db.collection("messages").add({
+      text: msg,
+      name: name,
+      photoURL: image,
+      uid,
+      type: "text",
+      role: role,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+
     setMsg("");
   }
   return (

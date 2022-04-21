@@ -1,3 +1,4 @@
+// File by: Griffin
 import React, { useState } from "react";
 import { db, auth } from "../../firebase";
 import { Button } from "@material-ui/core";

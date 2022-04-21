@@ -1,3 +1,4 @@
+// File by: Griffin
 import './App.css';
 import Chat from './components/Chat';
 import SignIn from './components/SignIn';

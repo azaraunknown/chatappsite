@@ -1,37 +1,39 @@
+// File by: Griffin
 import React, { useState } from "react";
-import { app, db, auth } from "../../firebase";
-import firebase from "firebase/compat/app";
-import { Input, Button } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import { db, auth } from "../../firebase";
 
-async function ChangeNickname() {
+function ChangeNickname() {
   const [nickname, setNickname] = useState("");
-  const onNicknamechange = (e) => {
-    const nickname = e.target.value[0];
-    setNickname(nickname);
+  const handleChange = (e) => {
+    setNickname(e.target.value);
   };
-
-  var { uid, displayName } = auth.currentUser;
-  const banned = await db.collection("banned").doc(uid).get();
-  if (banned.exists) {
-    return alert(
-      "You are not allowed to change your nickname as you are banned"
-    );
-  }
-
-  await db.collection("users").doc(uid).update({
-    name: nickname,
-  });
-  await db.collection("logging").add({
-    user: displayName,
-    action: "Changed Nickname",
-    time: firebase.firestore.FieldValue.serverTimestamp(),
-    newName: nickname,
-  });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { uid } = auth.currentUser;
+    db.collection("users")
+      .doc(uid)
+      .update({
+        displayName: nickname,
+      })
+      .then(() => {
+        setNickname("");
+      });
+  };
   return (
-    <>
-      <input type="file" onChange={onNicknamechange} />
-      <Button type="submit">Change Nickname</Button>
-    </>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Enter your nickname"
+          onChange={handleChange}
+          value={nickname}
+        />
+        <Button type="submit" variant="contained" color="primary">
+          Change Nickname
+        </Button>
+      </form>
+    </div>
   );
 }
 

@@ -1,3 +1,4 @@
+// File by: Griffin
 import React from "react";
 import Button from "@material-ui/core/Button";
 import ChangeProfilePicture from "./settings/ChangeProfilePicture";
