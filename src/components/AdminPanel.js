@@ -7,6 +7,7 @@ import AddAdmin from "./admin/AddAdmin";
 import ClearChat from "./admin/ClearChat";
 import RemoveAdmin from "./admin/RemoveAdmin";
 import SystemMessage from "./admin/SystemMessage";
+import FeatureControl from "./admin/FeatureControl";
 
 // create an event listener for the button with id of "admin-button"
 // when the button is clicked, toggle the hidden attribute of the element with id of "the-admin-panel"
@@ -127,6 +128,23 @@ function AdminPanel() {
           >
             Send System Message
           </Button>
+
+          <Button
+            id="enable-disable-button"
+            variant="contained"
+            color="secondary"
+            onClick={() => {
+              var x = document.getElementById("enable-disable-features");
+              if (x.style.display === "none") {
+                x.style.display = "block";
+              } else {
+                x.style.display = "none";
+              }
+            }}
+          >
+            Enable/Disable Features
+          </Button>
+
         </div>
         <div id="banuser" style={styles}>
           <BanUser />
@@ -149,6 +167,10 @@ function AdminPanel() {
         <div id="system-message" style={styles}>
           <SystemMessage />
         </div>
+
+        <div id="enable-disable-features" style={styles}>
+          <FeatureControl />
+          </div>
       </div>
     </>
   );

@@ -1,5 +1,6 @@
 // File by: Griffin
 import React, { useState, useEffect } from "react";
+import EmojiChoser from "./emojis";
 import { db } from "../firebase";
 import SendMessage from "./SendMessage";
 import SignOut from "./SignOut";
@@ -15,7 +16,7 @@ function Chat() {
 
   const systemStyle = {
     fontWeight: "bold",
-    color: "blues",
+    color: "blue",
   };
 
   const [messages, setMessages] = useState([]);
@@ -28,40 +29,85 @@ function Chat() {
       });
   }, []);
   return (
-    <div>
-      <SignOut />
-      <AdminUI />{" "}
-      {messages.map(({ id, text, photoURL, name, uid, type, role }) => (
-        <div key={id}>
-          {" "}
-          {uid === "system" ? <p style={systemStyle}> {name} </p> : null}{" "}
-          {uid !== "system" && role === "admin" ? (
-            <p style={adminStyle}> {name} </p>
-          ) : null}{" "}
-          {uid != "system" && role !== "admin" ? <p> {name} </p> : null}{" "}
-          {photoURL !== "" ? (
-            <img src={photoURL} width={`25`} height={`25`} alt="User Profile" />
-          ) : (
-            <img
-              src={defaultPFP}
-              width={`25`}
-              height={`25`}
-              alt="User Profile"
-            />
-          )}{" "}
-          <br />{" "}
-          {type === "image" ? (
-            <img src={text} alt="Message" />
-          ) : (
-            <p> {text} </p>
-          )}{" "}
-          <br />
-          <span> {uid} </span>{" "}
+    <>
+      <div>
+        <div className="chat">
+          <div className="chat__header">
+            <h2>Chat Chat</h2>
+            <div id="chat__sign__out">
+              <SignOut />
+            </div>
+            <div id="chat__admin__panel">
+              <AdminUI />
+            </div>
+            <div id="chat__box__panel">
+              <div id="chat__box">
+                {messages.map(
+                  ({ id, text, photoURL, name, uid, type, role, time }) => (
+                    <div className="chat__message" key={id}>
+                      <div className="chat__message__text" id={id + "__" + uid}>
+                        {uid == "system" && name == "system" ? (
+                          <p id={name + "__" + uid} style={systemStyle}>
+                            {name}
+                          </p>
+                        ) : null}
+                        {uid !== "system" &&
+                        name !== "system" &&
+                        role == "admin" ? (
+                          <p id={name + "__" + uid} style={adminStyle}>
+                            {name}
+                          </p>
+                        ) : null}
+                        {uid !== "system" &&
+                        name !== "system" &&
+                        role !== "admin" ? (
+                          <p id={name + "__" + uid}>{name}</p>
+                        ) : null}
+
+                        <img
+                          src={photoURL}
+                          id={photoURL + "__" + uid}
+                          alt="User Profile Picture"
+                          height="100"
+                          width="100"
+                        />
+
+                        {type === "image" ? (
+                          <img
+                            src={text}
+                            id={type + "__" + uid}
+                            alt="Uploaded Image"
+                            height="100"
+                            width="100"
+                          />
+                        ) : (
+                          <p id={type + "__" + uid}>{text}</p>
+                        )}
+
+                        <span id={id + "__" + uid}>{uid}</span>
+                        <br />
+                        <span id="chat__message__time">{time}</span>
+                      </div>
+                    </div>
+                  )
+                )}
+              </div>
+              <div id="send__content">
+                <div id="send_message">
+                  <SendMessage />
+                </div>
+                <div id="upload__image">
+                  <UploadImage />
+                </div>
+                <div id="emoji__choser">
+                  <EmojiChoser />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      ))}{" "}
-      <SendMessage />
-      <UploadImage />
-    </div>
+      </div>
+    </>
   );
 }
 

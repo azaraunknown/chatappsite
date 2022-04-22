@@ -7,6 +7,12 @@ import firebase from "firebase/compat/app";
 function AddAdmin() {
   var [adminUID] = useState("");
   var { displayName } = auth.currentUser;
+  // verify before executing that the user executing the code is an admin
+  // if not, refresh the page
+  // if (role !== "admin") {
+  //   return <Redirect to="/" />;
+  // }
+
   return (
     <>
       <div>

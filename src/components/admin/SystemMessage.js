@@ -2,10 +2,10 @@
 import React, { useState } from "react";
 import { db } from "../../firebase.js";
 import firebase from "firebase/compat/app";
-import {Button} from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 function SystemMessage() {
-  var [theMessage] = useState("");
+  const [theMessage, settheMessage] = useState("");
   return (
     <>
       <div>
@@ -13,7 +13,7 @@ function SystemMessage() {
           type="text"
           placeholder="Message"
           onChange={(e) => {
-            theMessage = e.target.value;
+            theMessage(e.target.value);
           }}
         />
 
@@ -22,6 +22,7 @@ function SystemMessage() {
           variant="contained"
           color="secondary"
           onClick={() => {
+            let time = new Date().toLocaleTimeString();
             db.collection("messages").add({
               text: theMessage,
               name: "SYSTEM",
@@ -30,9 +31,10 @@ function SystemMessage() {
               uid: "system",
               type: "text",
               role: "system",
+              time: time,
               createdAt: firebase.firestore.FieldValue.serverTimestamp(),
             });
-            theMessage="";
+            settheMessage("");
           }}
         >
           Send Message

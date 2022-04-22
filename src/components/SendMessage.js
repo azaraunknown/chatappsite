@@ -18,19 +18,12 @@ function SendMessage({ scroll }) {
       alert("Message is too long");
       return;
     }
-    const { uid } = auth.currentUser;
+    const { uid, photoURL, displayName } = auth.currentUser;
     const banned = await db.collection("banned").doc(uid).get();
     if (banned.exists) {
       return alert("You are not allowed to send messages as you are banned");
     }
-    await db
-      .collection("users")
-      .doc(uid)
-      .get()
-      .then((doc) => {
-        setImage(`${doc.data().photoURL}`);
-        setName(`${doc.data().displayName}`);
-      });
+    let time = new Date().toLocaleTimeString();
 
     await db
       .collection("administrators")
@@ -46,11 +39,12 @@ function SendMessage({ scroll }) {
 
     await db.collection("messages").add({
       text: msg,
-      name: name,
-      photoURL: image,
+      name: displayName,
+      photoURL: photoURL,
       uid,
       type: "text",
       role: role,
+      time: time,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
