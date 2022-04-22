@@ -5,9 +5,7 @@ import SendMessage from "./SendMessage";
 import SignOut from "./SignOut";
 import UploadImage from "./imageUpload";
 import AdminUI from "./AdminUI";
-import UserSettings from "./UserSettings";
-const defaultPFP =
-  "https://firebasestorage.googleapis.com/v0/b/fancy-chat-app-azara.appspot.com/o/download.png?alt=media&token=b819dbe8-0b8f-42a7-9c44-865962416c00`";
+import "../App.css";
 
 function Chat() {
   const adminStyle = {
@@ -32,16 +30,15 @@ function Chat() {
   return (
     <div>
       <SignOut />
-      <UserSettings />
-      <AdminUI />
+      <AdminUI />{" "}
       {messages.map(({ id, text, photoURL, name, uid, type, role }) => (
         <div key={id}>
-          {uid === "system" ? <p style={systemStyle}>{name}</p> : null}
+          {" "}
+          {uid === "system" ? <p style={systemStyle}> {name} </p> : null}{" "}
           {uid !== "system" && role === "admin" ? (
-            <p style={adminStyle}>{name}</p>
-          ) : (
-            <p>{name}</p>
-          )}
+            <p style={adminStyle}> {name} </p>
+          ) : null}{" "}
+          {uid != "system" && role !== "admin" ? <p> {name} </p> : null}{" "}
           {photoURL !== "" ? (
             <img src={photoURL} width={`25`} height={`25`} alt="User Profile" />
           ) : (
@@ -51,13 +48,17 @@ function Chat() {
               height={`25`}
               alt="User Profile"
             />
-          )}
+          )}{" "}
+          <br />{" "}
+          {type === "image" ? (
+            <img src={text} alt="Message" />
+          ) : (
+            <p> {text} </p>
+          )}{" "}
           <br />
-          {type === "image" ? <img src={text} alt="Message" /> : <p>{text}</p>}
-          <br />
-          <span>{uid}</span>
+          <span> {uid} </span>{" "}
         </div>
-      ))}
+      ))}{" "}
       <SendMessage />
       <UploadImage />
     </div>
