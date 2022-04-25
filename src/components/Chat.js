@@ -8,7 +8,7 @@ import UploadImage from "./imageUpload";
 import AdminUI from "./AdminUI";
 import "../App.css";
 
-function Chat() {
+async function Chat() {
   const adminStyle = {
     fontWeight: "bold",
     color: "red",

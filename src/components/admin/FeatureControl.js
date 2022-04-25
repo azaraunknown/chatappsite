@@ -5,14 +5,14 @@ import { auth, db } from "../../firebase";
 import firebase from "firebase/compat/app";
 
 function FeatureControl() {
-    const enabeledStyle = {
-        backgroundColor: "green",
-        color: "white",
-    }
-    const disabledStyle = {
-        backgroundColor: "red",
-        color: "white",
-    }
+  const enabeledStyle = {
+    backgroundColor: "green",
+    color: "white",
+  };
+  const disabledStyle = {
+    backgroundColor: "red",
+    color: "white",
+  };
   // load the feature list from the database and all all IDs to an arry
   const [features, setFeatures] = useState([]);
   const [featureState, setFeatureState] = useState([]);
@@ -27,36 +27,49 @@ function FeatureControl() {
     <>
       <div>
         <select id="feature-select">
-          {features.map((feature, enabeled) => (
-            <option key={feature.id} value={feature.id}>
-              {enabeled === true ? <p style={enabeledStyle} id={feature.id}>{feature.id}</p>: <p style={disabledStyle} id={feature.id}>{feature.id}</p>}
+          {features.map(({ id, name, enabeled }) => (
+            <option
+              key={id}
+              value={id}
+              style={enabeled ? enabeledStyle : disabledStyle}
+            >
+              {name}
             </option>
           ))}
-          <Button
-            id="enable/disable-button"
-            variant="contained"
-            color="secondary"
-            onClick={() => {
-                var theFeature = document.getElementById("feature-select").value;
-                db.collection("features").doc(theFeature).get().then(function(doc) {
-                    if(doc.data().enabled === true) {
-                        setFeatureState(false);
-                    } else {
-                        setFeatureState(true);
-                    }
-                });
-
-                db.collection("features").doc(theFeature).update({
-                    enabeled: featureState
-                })
-            }}
-          >
-            Toggle Feature
-          </Button>
         </select>
+        <Button
+          id="feature-button"
+          variant="contained"
+          color="secondary"
+          onClick={async () => {
+            let feature = document.getElementById("feature-select").value;
+            await db
+              .collection("features")
+              .doc(feature)
+              .get()
+              .then((doc) => {
+                if (doc.data().enabeled) {
+                  setFeatureState("enabeled");
+                } else {
+                  setFeatureState("disabled");
+                }
+              });
+            if (featureState === "enabeled") {
+              await db.collection("features").doc(feature).update({
+                enabeled: false,
+              });
+            } else {
+              await db.collection("features").doc(feature).update({
+                enabeled: true,
+              });
+            }
+          }}
+        >
+          Toggle Feature
+        </Button>
       </div>
     </>
   );
-};
+}
 
 export default FeatureControl;

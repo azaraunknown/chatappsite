@@ -21,9 +21,9 @@ function SystemMessage() {
           id="system-button"
           variant="contained"
           color="secondary"
-          onClick={() => {
+          onClick={async () => {
             let time = new Date().toLocaleTimeString();
-            db.collection("messages").add({
+            await db.collection("messages").add({
               text: theMessage,
               name: "SYSTEM",
               photoURL:
