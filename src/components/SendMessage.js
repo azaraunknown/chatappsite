@@ -5,25 +5,27 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import { Input, Button } from "@material-ui/core";
 
-function SendMessage({ scroll }) {
+function SendMessage() {
   const [msg, setMsg] = useState("");
-  const [image, setImage] = useState("");
-  const [name, setName] = useState("");
   const [role, setRole] = useState("");
 
   async function sendMessage(e) {
     e.preventDefault();
     if (msg.trim() === "") return;
-    if (msg.length > 255) {
-      alert("Message is too long");
-      return;
-    }
-    const { uid, photoURL, displayName } = auth.currentUser;
-    const banned = await db.collection("banned").doc(uid).get();
-    if (banned.exists) {
-      return alert("You are not allowed to send messages as you are banned");
-    }
-    let time = new Date().toLocaleTimeString();
+    const { displayName, photoURL, uid } = auth.currentUser;
+    const time = new Date().toLocaleTimeString();
+    await db
+      .collection("banned")
+      .doc(uid)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          alert(
+            "You are banned currently, therefore you cannot send messages."
+          );
+          return;
+        }
+      });
 
     await db
       .collection("administrators")
@@ -37,18 +39,21 @@ function SendMessage({ scroll }) {
         }
       });
 
-    await db.collection("messages").add({
-      text: msg,
-      name: displayName,
-      photoURL: photoURL,
-      uid,
-      type: "text",
-      role: role,
-      time: time,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    });
-
-    setMsg("");
+    await db
+      .collection("messages")
+      .add({
+        text: msg,
+        name: displayName,
+        photoURL: photoURL,
+        uid: uid,
+        type: "text",
+        role: role,
+        time: time,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+      .then(() => {
+        setMsg("");
+      });
   }
   return (
     <div>

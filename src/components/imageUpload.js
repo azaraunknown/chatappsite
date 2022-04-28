@@ -4,8 +4,8 @@ import { app, db, auth } from "../firebase";
 import firebase from "firebase/compat/app";
 
 function UploadImage() {
-  const [name, setName] = useState("");
-  const [image, setImage] = useState("");
+  const { displayName, photoURL, uid } = auth.currentUser;
+  const [role, setRole] = useState("");
   const onFileChange = (e) => {
     const file = e.target.files[0];
     const storageRef = app.storage().ref();
@@ -15,37 +15,35 @@ function UploadImage() {
     });
   };
   async function sendIt(file) {
-    var { uid } = auth.currentUser;
-    const banned = await db.collection("banned").doc(uid).get();
-    if (banned.exists) {
-      return alert("You are not allowed to send messages as you are banned");
-    }
+    const time = new Date().toLocaleTimeString();
     const storageRef = app.storage().ref();
     const fileRef = storageRef.child(file);
     const url = await fileRef.getDownloadURL();
 
     await db
-      .collection("users")
+      .collection("administrators")
       .doc(uid)
       .get()
       .then((doc) => {
-        setName(`${doc.data().displayName}`);
-        setImage(`${doc.data().photoURL}`);
+        if (doc.exists) {
+          setRole("admin");
+        } else {
+          setRole("user");
+        }
       });
-    await db
-      .collection("messages")
-      .add({
-        text: url,
-        name: name,
-        photoURL: image,
-        uid,
-        type: "image",
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      })
-      .then(() => {
-        document.getElementById("file").value = "";
-      });
+
+    await db.collection("messages").add({
+      text: url,
+      name: displayName,
+      photoURL: photoURL,
+      uid,
+      type: "image",
+      role: role,
+      time: time,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
   }
+
   return (
     <>
       <input type="file" onChange={onFileChange} />

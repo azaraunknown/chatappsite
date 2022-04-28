@@ -1,14 +1,15 @@
 // File by: Griffin
 import React, { useState, useEffect } from "react";
 import EmojiChoser from "./emojis";
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
 import SendMessage from "./SendMessage";
 import SignOut from "./SignOut";
 import UploadImage from "./imageUpload";
 import AdminUI from "./AdminUI";
 import "../App.css";
-
-async function Chat() {
+function Chat() {
+  var { uid } = auth.currentUser;
+  var bruh = uid;
   const adminStyle = {
     fontWeight: "bold",
     color: "red",
@@ -30,6 +31,12 @@ async function Chat() {
   }, []);
   return (
     <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Orelega+One&display=swap"
+        rel="stylesheet"
+      />
       <div>
         <div className="chat">
           <div className="chat__header">
@@ -44,7 +51,11 @@ async function Chat() {
               <div id="chat__box">
                 {messages.map(
                   ({ id, text, photoURL, name, uid, type, role, time }) => (
-                    <div className="chat__message" key={id}>
+                    <div
+                      id="chat__message"
+                      className={uid == bruh ? "authorMessage" : "otherMessage"}
+                      key={id}
+                    >
                       <div className="chat__message__text" id={id + "__" + uid}>
                         {uid == "system" && name == "system" ? (
                           <p id={name + "__" + uid} style={systemStyle}>
@@ -85,8 +96,8 @@ async function Chat() {
                         )}
 
                         <span id={id + "__" + uid}>{uid}</span>
-                        <br />
                         <span id="chat__message__time">{time}</span>
+                        <br />
                       </div>
                     </div>
                   )
