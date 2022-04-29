@@ -1,9 +1,32 @@
 .chat {
     background-color: #f4f6f5;
+    font-family: 'Orelega One', cursive;
+}
+body {
+    background-color: #f4f6f5;
+    font-family: 'Orelega One', cursive;
 }
 .authorMessage {
-    position: absolute;
-    right: 0px;
-    width: 300px;
-    padding: 10px;
+    margin-left: 60%;
+    background-color: #008AE0; 
+    border:2px solid #008AE0;
+    padding: 10px; 
+    border-radius: 25px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+.otherMessage {
+    margin-right: 60%;
+    background-color: #a7b5b3;
+    border:2px solid #a7b5b3;
+    padding: 10px; 
+    border-radius: 25px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+.chat__message__body {
+    color: #2B3840;
+}
+.chat__message__footer{
+    color: #2B3840;
 }

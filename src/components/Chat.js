@@ -10,15 +10,6 @@ import "../App.css";
 function Chat() {
   var { uid } = auth.currentUser;
   var bruh = uid;
-  const adminStyle = {
-    fontWeight: "bold",
-    color: "red",
-  };
-
-  const systemStyle = {
-    fontWeight: "bold",
-    color: "blue",
-  };
 
   const [messages, setMessages] = useState([]);
   useEffect(() => {
@@ -51,53 +42,29 @@ function Chat() {
               <div id="chat__box">
                 {messages.map(
                   ({ id, text, photoURL, name, uid, type, role, time }) => (
-                    <div
-                      id="chat__message"
-                      className={uid == bruh ? "authorMessage" : "otherMessage"}
-                      key={id}
-                    >
-                      <div className="chat__message__text" id={id + "__" + uid}>
-                        {uid == "system" && name == "system" ? (
-                          <p id={name + "__" + uid} style={systemStyle}>
-                            {name}
-                          </p>
-                        ) : null}
-                        {uid !== "system" &&
-                        name !== "system" &&
-                        role == "admin" ? (
-                          <p id={name + "__" + uid} style={adminStyle}>
-                            {name}
-                          </p>
-                        ) : null}
-                        {uid !== "system" &&
-                        name !== "system" &&
-                        role !== "admin" ? (
-                          <p id={name + "__" + uid}>{name}</p>
-                        ) : null}
-
-                        <img
-                          src={photoURL}
-                          id={photoURL + "__" + uid}
-                          alt="User Profile Picture"
-                          height="100"
-                          width="100"
-                        />
-
-                        {type === "image" ? (
-                          <img
-                            src={text}
-                            id={type + "__" + uid}
-                            alt="Uploaded Image"
-                            height="100"
-                            width="100"
-                          />
-                        ) : (
-                          <p id={type + "__" + uid}>{text}</p>
-                        )}
-
-                        <span id={id + "__" + uid}>{uid}</span>
-                        <span id="chat__message__time">{time}</span>
-                        <br />
+                    <div className={bruh === uid ? "authorMessage" : "otherMessage"} key={id}>
+                      <div className="chat__message__header">
+                      <div className="chat__message__header__profile_picture">
+                          <img className="photoURL" src={photoURL} alt="profile_picture" />
+                        </div>
+                        <div className="chat__message__header__name">
+                          {role === "system" && uid==="system" ? <span className="system_name">{name}</span> : null}
+                          {role === "admin" && uid!=="system" ? <span className="admin_name">{name}</span> : null}
+                          {role !== "admin" && uid!=="system" ? <span className="user_name">{name}</span> : null}
+                        </div>
+                      </div>
+                      <div className="chat__message__body">
+                        {type == "emoji" ? <span className="sentEmoji">{text}</span> : null}
+                        {type == "image" ? <img className="sentImage" src={text} alt="sentImage" /> : null}
+                        {type == "text" ? <span className="sentText">{text}</span> : null}
+                      </div>
+                      <div className="chat__message__footer">
+                        <div className="chat_message_user_id">
+                          <span className="user_uid">{uid}</span>
+                        </div>
+                        <div className="chat_message_time">
+                          <span className="time">{time}</span>
+                        </div>
                       </div>
                     </div>
                   )

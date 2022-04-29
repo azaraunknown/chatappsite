@@ -1,1 +1,0 @@
-{"version":3,"file":"static/css/main.f8d4e88d.css","mappings":"AAAA,MACI,wBACJ,CACA,eAII,YAAa,CAHb,iBAAkB,CAClB,OAAU,CACV,WAEJ","sources":["App.css"],"sourcesContent":[".chat {\r\n    background-color: #f4f6f5;\r\n}\r\n.authorMessage {\r\n    position: absolute;\r\n    right: 0px;\r\n    width: 300px;\r\n    padding: 10px;\r\n}\r\n"],"names":[],"sourceRoot":""}
