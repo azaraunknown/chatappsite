@@ -1,6 +1,5 @@
 // File by: Griffin
 import React, { useState, useEffect } from "react";
-import EmojiChoser from "./emojis";
 import { db, auth } from "../firebase";
 import SendMessage from "./SendMessage";
 import SignOut from "./SignOut";
@@ -12,6 +11,7 @@ function Chat() {
   var bruh = uid;
 
   const [messages, setMessages] = useState([]);
+  
   useEffect(() => {
     db.collection("messages")
       .orderBy("createdAt")
@@ -54,9 +54,9 @@ function Chat() {
                         </div>
                       </div>
                       <div className="chat__message__body">
-                        {type == "emoji" ? <span className="sentEmoji">{text}</span> : null}
-                        {type == "image" ? <img className="sentImage" src={text} alt="sentImage" /> : null}
-                        {type == "text" ? <span className="sentText">{text}</span> : null}
+                        {type === "emoji" ? <span className="sentEmoji">{text}</span> : null}
+                        {type === "image" ? <img className="sentImage" src={text} alt="sentImage" /> : null}
+                        {type === "text" ? <span className="sentText">{text}</span> : null}
                       </div>
                       <div className="chat__message__footer">
                         <div className="chat_message_user_id">
@@ -76,9 +76,6 @@ function Chat() {
                 </div>
                 <div id="upload__image">
                   <UploadImage />
-                </div>
-                <div id="emoji__choser">
-                  <EmojiChoser />
                 </div>
               </div>
             </div>
