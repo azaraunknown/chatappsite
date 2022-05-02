@@ -38,45 +38,45 @@ function Chat() {
             <div id="chat__admin__panel">
               <AdminUI />
             </div>
-            <div id="chat__box__panel">
-              <div id="chat__box">
-                {messages.map(
-                  ({ id, text, photoURL, name, uid, type, role, time }) => (
-                    <div className={bruh === uid ? "authorMessage" : "otherMessage"} key={id}>
-                      <div className="chat__message__header">
-                      <div className="chat__message__header__profile_picture">
-                          <img className="photoURL" src={photoURL} alt="profile_picture" />
-                        </div>
-                        <div className="chat__message__header__name">
-                          {role === "system" && uid==="system" ? <span className="system_name">{name}</span> : null}
-                          {role === "admin" && uid!=="system" ? <span className="admin_name">{name}</span> : null}
-                          {role !== "admin" && uid!=="system" ? <span className="user_name">{name}</span> : null}
-                        </div>
+          </div>
+          <div id="chat__box__panel">
+            <div id="chat__box">
+              {messages.map(
+                ({ id, text, photoURL, name, uid, type, role, time }) => (
+                  <div className={bruh === uid ? "authorMessage" : "otherMessage"} key={id}>
+                    <div className="chat__message__header">
+                    <div className="chat__message__header__profile_picture">
+                        <img className="photoURL" src={photoURL} alt="profile_picture" />
                       </div>
-                      <div className="chat__message__body">
-                        {type === "emoji" ? <span className="sentEmoji">{text}</span> : null}
-                        {type === "image" ? <img className="sentImage" src={text} alt="sentImage" /> : null}
-                        {type === "text" ? <span className="sentText">{text}</span> : null}
-                      </div>
-                      <div className="chat__message__footer">
-                        <div className="chat_message_user_id">
-                          <span className="user_uid">{uid}</span>
-                        </div>
-                        <div className="chat_message_time">
-                          <span className="time">{time}</span>
-                        </div>
+                      <div className="chat__message__header__name">
+                        {role === "system" && uid==="system" ? <span className="system_name">{name}</span> : null}
+                        {role === "admin" && uid!=="system" ? <span className="admin_name">{name}</span> : null}
+                        {role !== "admin" && uid!=="system" ? <span className="user_name">{name}</span> : null}
                       </div>
                     </div>
-                  )
-                )}
+                    <div className="chat__message__body">
+                      {type === "emoji" ? <span className="sentEmoji">{text}</span> : null}
+                      {type === "image" ? <img className="sentImage" src={text} alt="sentImage" /> : null}
+                      {type === "text" ? <span className="sentText">{text}</span> : null}
+                    </div>
+                    <div className="chat__message__footer">
+                      <div className="chat_message_user_id">
+                        <span className="user_uid">{uid}</span>
+                      </div>
+                      <div className="chat_message_time">
+                        <span className="time">{time}</span>
+                      </div>
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+            <div id="send__content">
+              <div id="send_message">
+                <SendMessage />
               </div>
-              <div id="send__content">
-                <div id="send_message">
-                  <SendMessage />
-                </div>
-                <div id="upload__image">
-                  <UploadImage />
-                </div>
+              <div id="upload__image">
+                <UploadImage />
               </div>
             </div>
           </div>

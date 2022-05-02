@@ -15,7 +15,7 @@ function App() {
       <link
         href="https://fonts.googleapis.com/css2?family=Orelega+One&display=swap"
         rel="stylesheet"/>
-      <img src="https://firebasestorage.googleapis.com/v0/b/fancy-chat-app-azara.appspot.com/o/logo.png?alt=media&token=38c97e53-8e9c-4a9a-9af0-bbf7e14f96c7" alt="logo" className="logo" width="200" height="200"/>
+      <img src="https://firebasestorage.googleapis.com/v0/b/fancy-chat-app-azara.appspot.com/o/logofinal.png?alt=media&token=f2ea3f6d-be2f-48ac-8fac-d60325219856" alt="logo" className="logo" />
       {user ? <Chat /> : <SignIn />}
       </div>
     </>
