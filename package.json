@@ -19,17 +19,12 @@
     "react-scripts": "^5.0.0",
     "web-vitals": "^2.1.4"
   },
-  "main": "public/electron.js",
-  "homepage": "./",
   "scripts": {
     "deploy": "npm run build && firebase deploy",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "dev": "concurrently -k \"cross-env BROWSER=none npm start\" \"npm:electron\"",
-    "electron": "wait-on tcp:3000 && electron .",
-    "electron-pack": "electron-builder -c.extraMetadata.main=build/electron.js"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -56,27 +51,6 @@
     "electron-builder": "^23.0.3",
     "electron-is-dev": "^2.0.0",
     "wait-on": "^6.0.1"
-  },
-  "build": {
-    "appId": "com.chat-chat-app",
-    "productName": "Chat Chat",
-    "copyright": "Copyright © 2022 Chat Chat",
-    "mac": {
-      "icon": "./public/logofinal.png",
-      "category": "public.app-category.utilities"
-    },
-    "win": {
-      "icon": "./public/logofinal.png"
-    },
-    "files": [
-      "./build/**/*",
-      "./dist/**/*",
-      "./node_modules/**/*",
-      "./public/**/*",
-      "*.js"
-    ],
-    "directories": {
-      "buildResources": "public"
-    }
   }
 }
+

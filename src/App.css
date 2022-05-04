@@ -5,6 +5,15 @@ html {
     width: 200px;
     height: auto;
 }
+.chat__header{
+    background-color: #00ffd9;
+}
+#chat__box {
+    height: 500px;
+    overflow: auto;
+    display: flex;
+    flex-direction: colomn-revers;
+}
 .authorMessage {
     margin-left: 60%;
     background-color: #008AE0; 
