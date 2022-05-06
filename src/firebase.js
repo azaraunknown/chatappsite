@@ -10,8 +10,8 @@ const firebaseConfig = {
   projectId: "fancy-chat-app-azara",
   storageBucket: "fancy-chat-app-azara.appspot.com",
   messagingSenderId: "925848375019",
-  appId: "1:925848375019:web:6a07ce61fc39fd7fa338ae",
-  measurementId: "G-6SFKHQ6BYV"
+  appId: "1:925848375019:web:8ffd546626455e6ba338ae",
+  measurementId: "G-VVV5M0Z2GN"
 };
 
 const app = firebase.initializeApp(firebaseConfig);
