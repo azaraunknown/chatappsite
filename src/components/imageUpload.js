@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { app, db, auth } from "../firebase";
 import firebase from "firebase/compat/app";
+import { Button } from "@material-ui/core";
+import "../App.css";
 
 function UploadImage() {
   const { displayName, photoURL, uid } = auth.currentUser;
@@ -46,7 +48,10 @@ function UploadImage() {
 
   return (
     <>
-      <input type="file" onChange={onFileChange} />
+      <Button component="label" className="image__component" variant="contained" color="secondary">
+        Upload File
+        <input type="file" onChange={onFileChange} hidden/>
+      </Button>
     </>
   );
 }

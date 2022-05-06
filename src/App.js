@@ -9,6 +9,7 @@ function App() {
   const [user] = useAuthState(auth);
   return (
     <>
+
     <div className="bruh">
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
