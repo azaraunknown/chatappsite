@@ -13,7 +13,7 @@ function SystemMessage() {
           type="text"
           placeholder="Message"
           onChange={(e) => {
-            theMessage(e.target.value);
+            settheMessage(e.target.value);
           }}
         />
 

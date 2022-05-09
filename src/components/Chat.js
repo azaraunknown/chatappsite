@@ -5,14 +5,29 @@ import SendMessage from "./SendMessage";
 import SignOut from "./SignOut";
 import UploadImage from "./imageUpload";
 import AdminUI from "./AdminUI";
-import {Button} from '@material-ui/core';
+import { Button } from "@material-ui/core";
 import "../App.css";
 
-function Chat() {
+async function Chat() {
   var { uid } = auth.currentUser;
   var bruh = uid;
 
   const [autoScroll, setAutoScroll] = useState(true);
+  const [banState, setBanState] = useState(false);
+
+  await db
+    .collection("banned")
+    .doc(uid)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        setBanState(true);
+      } else {
+        setBanState(false);
+      }
+    });
+
+
   function scrollToBottom() {
     var objDiv = document.getElementById("chat__box");
     objDiv.scrollTop = objDiv.scrollHeight;
@@ -62,72 +77,93 @@ function Chat() {
           <div id="chat__box__panel">
             <div id="chat__box">
               {messages.map(
-                ({ id, text, photoURL, name, uid, type, role, time }) => (
-                  <div
-                    className={bruh === uid ? "authorMessage" : "otherMessage"}
-                    key={id}
-                  >
-                    <div className="chat__message__header">
-                      <div
-                        className={bruh === uid ? "authorName" : "otherName"}
-                      >
-                        {role === "system" && uid === "system" ? (
-                          <span className="system_name">{name}</span>
+                ({
+                  id,
+                  text,
+                  photoURL,
+                  name,
+                  uid,
+                  type,
+                  role,
+                  time,
+                  banState,
+                }) =>
+                  banState === true ? null : (
+                    <div
+                      className={
+                        bruh === uid ? "authorMessage" : "otherMessage"
+                      }
+                      key={id}
+                    >
+                      <div className="chat__message__header">
+                        <div
+                          className={bruh === uid ? "authorName" : "otherName"}
+                        >
+                          {role === "system" && uid === "system" ? (
+                            <span className="system_name">{name}</span>
+                          ) : null}
+                          {role === "admin" && uid !== "system" ? (
+                            <span className="admin_name">{name}</span>
+                          ) : null}
+                          {role !== "admin" && uid !== "system" ? (
+                            <span className="user_name">{name}</span>
+                          ) : null}
+                        </div>
+                        <br />
+                        <div className="chat__message__header__profile_picture">
+                          <img
+                            className={
+                              bruh === uid
+                                ? "authorProfileURL"
+                                : "otherProfileURL"
+                            }
+                            src={photoURL}
+                            alt="profile_picture"
+                          />
+                        </div>
+                      </div>
+                      <br />
+                      <div className="chat__message__body">
+                        {type === "emoji" ? (
+                          <span className="sentEmoji">{text}</span>
                         ) : null}
-                        {role === "admin" && uid !== "system" ? (
-                          <span className="admin_name">{name}</span>
+                        {type === "image" ? (
+                          <img
+                            className="sentImage"
+                            src={text}
+                            alt="sentImage"
+                          />
                         ) : null}
-                        {role !== "admin" && uid !== "system" ? (
-                          <span className="user_name">{name}</span>
+                        {type === "text" ? (
+                          <span className="sentText">{text}</span>
                         ) : null}
                       </div>
                       <br />
-                      <div className="chat__message__header__profile_picture">
-                        <img
-                          className={
-                            bruh === uid
-                              ? "authorProfileURL"
-                              : "otherProfileURL"
-                          }
-                          src={photoURL}
-                          alt="profile_picture"
-                        />
+                      <div
+                        className={
+                          bruh === uid ? "authorFooter" : "otherFooter"
+                        }
+                      >
+                        <div className="chat_message_user_id">
+                          <span className="user_uid">{uid}</span>
+                        </div>
+                        <div className="chat_message_time">
+                          <span className="time">{time}</span>
+                        </div>
                       </div>
                     </div>
-                    <br />
-                    <div className="chat__message__body">
-                      {type === "emoji" ? (
-                        <span className="sentEmoji">{text}</span>
-                      ) : null}
-                      {type === "image" ? (
-                        <img className="sentImage" src={text} alt="sentImage" />
-                      ) : null}
-                      {type === "text" ? (
-                        <span className="sentText">{text}</span>
-                      ) : null}
-                    </div>
-                    <br />
-                    <div
-                      className={bruh === uid ? "authorFooter" : "otherFooter"}
-                    >
-                      <div className="chat_message_user_id">
-                        <span className="user_uid">{uid}</span>
-                      </div>
-                      <div className="chat_message_time">
-                        <span className="time">{time}</span>
-                      </div>
-                    </div>
-                  </div>
-                )
+                  )
               )}
             </div>
-            <div id="send__content">
-              <div id="send_message">
-                <SendMessage />
-                <br />
-                <UploadImage className="sendImage" />
+            {banState ? <p>You cant send messages while banned</p> : (
+              <div id="send__content">
+                <div id="send_message">
+                  <SendMessage />
+                  <br />
+                  <UploadImage className="sendImage" />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

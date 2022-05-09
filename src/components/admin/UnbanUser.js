@@ -5,7 +5,7 @@ import { db, auth } from "../../firebase";
 import firebase from "firebase/compat/app";
 
 function UNBanUser() {
-  var [bannedUID] = useState([]);
+  var [bannedUID, setBannedUID] = useState([]);
   return (
     <>
       <div>
@@ -13,7 +13,7 @@ function UNBanUser() {
           type="text"
           placeholder="Ban UID"
           onChange={(e) => {
-            bannedUID = e.target.value;
+            setBannedUID(e.target.value);
           }}
         />
         <Button

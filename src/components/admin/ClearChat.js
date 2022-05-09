@@ -4,7 +4,7 @@ import { Button } from "@material-ui/core";
 import { db } from "../../firebase";
 
 function ClearChat() {
-  var [input] = useState("");
+  var [input, setInput] = useState("");
   return (
     <>
       <div>
@@ -12,7 +12,7 @@ function ClearChat() {
           type="text"
           placeholder="Type Confirm"
           onChange={(e) => {
-            input = e.target.value;
+            setInput(e.target.value);
           }}
         />
         <Button

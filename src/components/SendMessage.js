@@ -10,6 +10,7 @@ import "../App.css";
 function SendMessage() {
   var styles = { display: "none" };
   const [msg, setMsg] = useState("");
+  const [banState, setBanState] = useState(false);
   const [role, setRole] = useState("");
 
   const onEmojiClick = (event, emojiObject) => {
@@ -850,20 +851,29 @@ function SendMessage() {
   async function sendMessage(e) {
     e.preventDefault();
     if (msg.trim() === "") return;
+    if (msg.length > 2000) {
+      alert("Your message is too long, the limit is 2000 characters");
+      return;
+    }
     const { displayName, photoURL, uid } = auth.currentUser;
-    const time = new Date().toLocaleTimeString();
+
     await db
       .collection("banned")
       .doc(uid)
       .get()
       .then((doc) => {
         if (doc.exists) {
-          alert(
-            "You are banned currently, therefore you cannot send messages."
-          );
-          return;
+          setBanState(true);
         }
       });
+
+    if (banState === true) {
+      alert("You are banned from using this chat");
+      setMsg("");
+      return;
+    }
+
+    const time = new Date().toLocaleTimeString();
 
     await db
       .collection("administrators")
@@ -877,7 +887,7 @@ function SendMessage() {
         }
       });
 
-    await db
+    db
       .collection("messages")
       .add({
         text: msg,
@@ -886,6 +896,7 @@ function SendMessage() {
         uid: uid,
         type: "text",
         role: role,
+        banState: banState,
         time: time,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       })

@@ -5,7 +5,7 @@ import { Button } from "@material-ui/core";
 import firebase from "firebase/compat/app";
 
 function RemoveAdmin() {
-  var [adminUID] = useState("");
+  var [adminUID, setAdminUID] = useState("");
   var { displayName } = auth.currentUser;
   return (
     <>
@@ -14,7 +14,7 @@ function RemoveAdmin() {
           type="text"
           placeholder="Admin UID"
           onChange={(e) => {
-            adminUID = e.target.value;
+            setAdminUID(e.target.value);
           }}
         />
         <Button

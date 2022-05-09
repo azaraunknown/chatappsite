@@ -6,7 +6,8 @@ import firebase from "firebase/compat/app";
 
 function BanUser() {
   const { displayName } = auth.currentUser;
-  var [bannedUID, reason] = useState([]);
+  var [bannedUID, setBannedUID] = useState([]);
+  var [reason, setReason] = useState([]);
   return (
     <>
       <div>
@@ -14,14 +15,14 @@ function BanUser() {
           type="text"
           placeholder="Ban UID"
           onChange={(e) => {
-            bannedUID = e.target.value;
+            setBannedUID(e.target.value);
           }}
         />
         <input
           type="text"
           placeholder="Reason"
           onChange={(e) => {
-            reason = e.target.value;
+            setReason(e.target.value);
           }}
         />
         <Button
