@@ -1,3 +1,7 @@
+/*
+File worked on by: Liam and Griffin
+*/
+
 html {
     font-family: 'Space Mono', monospace;
 }
@@ -14,20 +18,76 @@ html {
     opacity: 25%;
     z-index: -1;
 }
+.loading {
+    width: 290px;
+    height: auto;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
 
+.login__page__body {
+    margin-left: 51%;
+    margin-top: 30%;
+
+}
+.align_left{
+    position: absolute;
+    margin: auto;
+    top: 2.5%;
+    left: 90%;
+    right: 0;
+    bottom: 0;
+}
+.image__component{
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 90%;
+    right: 0;
+    bottom: 10%;
+}
 .chat__header {
     color: #fff;
     padding: 15px;
+    background-color: rgba(0, 0, 255, 0.1);
 }
 
 #chat__sign__out {
     float: right;
 }
 
+#send__content{
+    background-color: rgba(0, 0, 255, 0.1);
+}
+#chat__box::-webkit-scrollbar {
+    display: none;
+}
+
 #chat__box {
     overflow-x: hidden;
     overflow-y: visible;
-    height: 580px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    height: 610px;
+}
+
+.send__content{
+    width: 100%;
+    height: auto;
+    border: none;
+    border-radius: 0;
+    padding: 10px;
+    font-size: 14px;
+    color: #fff;
+    background-color: rgba(0, 0, 255, 0.1);
+    margin-left: 50%;
+    margin-top: 10px;
+    margin-right: 50%;
 }
 
 .authorMessage {
@@ -144,4 +204,14 @@ html {
     margin-bottom: 10px;
     margin-left: 10px;
     margin-right: 10px;
+}
+
+.banBanned {
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.5em;
+    padding: 10px;
+    user-select: none;
+    background-color: #ff0000;
 }

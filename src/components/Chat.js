@@ -1,4 +1,5 @@
 // File by: Griffin
+// Liam did things for css
 import React, { useState, useEffect } from "react";
 import { db, auth } from "../firebase";
 import SendMessage from "./SendMessage";
@@ -8,15 +9,14 @@ import AdminUI from "./AdminUI";
 import { Button } from "@material-ui/core";
 import "../App.css";
 
-async function Chat() {
+function Chat() {
   var { uid } = auth.currentUser;
   var bruh = uid;
 
   const [autoScroll, setAutoScroll] = useState(true);
   const [banState, setBanState] = useState(false);
 
-  await db
-    .collection("banned")
+  db.collection("banned")
     .doc(uid)
     .get()
     .then((doc) => {
@@ -26,7 +26,6 @@ async function Chat() {
         setBanState(false);
       }
     });
-
 
   function scrollToBottom() {
     var objDiv = document.getElementById("chat__box");
@@ -60,18 +59,16 @@ async function Chat() {
       <div>
         <div className="chat">
           <div className="chat__header">
-            <div id="chat__sign__out">
-              <SignOut />
-            </div>
             <div className="important">
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => setAutoScroll(!autoScroll)}
-              >
-                {autoScroll ? "Disable" : "Enable"} Auto Scroll
-              </Button>
-              <AdminUI />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setAutoScroll(!autoScroll)}
+            >
+              {autoScroll ? "Disable" : "Enable"} Auto Scroll
+            </Button>
+            <AdminUI />
+            <SignOut className="align-left"/>
             </div>
           </div>
           <div id="chat__box__panel">
@@ -87,75 +84,68 @@ async function Chat() {
                   role,
                   time,
                   banState,
-                }) =>
-                  banState === true ? null : (
-                    <div
-                      className={
-                        bruh === uid ? "authorMessage" : "otherMessage"
-                      }
-                      key={id}
-                    >
-                      <div className="chat__message__header">
-                        <div
-                          className={bruh === uid ? "authorName" : "otherName"}
-                        >
-                          {role === "system" && uid === "system" ? (
-                            <span className="system_name">{name}</span>
-                          ) : null}
-                          {role === "admin" && uid !== "system" ? (
-                            <span className="admin_name">{name}</span>
-                          ) : null}
-                          {role !== "admin" && uid !== "system" ? (
-                            <span className="user_name">{name}</span>
-                          ) : null}
-                        </div>
-                        <br />
-                        <div className="chat__message__header__profile_picture">
-                          <img
-                            className={
-                              bruh === uid
-                                ? "authorProfileURL"
-                                : "otherProfileURL"
-                            }
-                            src={photoURL}
-                            alt="profile_picture"
-                          />
-                        </div>
-                      </div>
-                      <br />
-                      <div className="chat__message__body">
-                        {type === "emoji" ? (
-                          <span className="sentEmoji">{text}</span>
-                        ) : null}
-                        {type === "image" ? (
-                          <img
-                            className="sentImage"
-                            src={text}
-                            alt="sentImage"
-                          />
-                        ) : null}
-                        {type === "text" ? (
-                          <span className="sentText">{text}</span>
-                        ) : null}
-                      </div>
-                      <br />
+                }) => (
+                  <div
+                    className={bruh === uid ? "authorMessage" : "otherMessage"}
+                    key={id}
+                  >
+                    <div className="chat__message__header">
                       <div
-                        className={
-                          bruh === uid ? "authorFooter" : "otherFooter"
-                        }
+                        className={bruh === uid ? "authorName" : "otherName"}
                       >
-                        <div className="chat_message_user_id">
-                          <span className="user_uid">{uid}</span>
-                        </div>
-                        <div className="chat_message_time">
-                          <span className="time">{time}</span>
-                        </div>
+                        {role === "system" && uid === "system" ? (
+                          <span className="system_name">{name}</span>
+                        ) : null}
+                        {role === "admin" && uid !== "system" ? (
+                          <span className="admin_name">{name}</span>
+                        ) : null}
+                        {role !== "admin" && uid !== "system" ? (
+                          <span className="user_name">{name}</span>
+                        ) : null}
+                      </div>
+                      <br />
+                      <div className="chat__message__header__profile_picture">
+                        <img
+                          className={
+                            bruh === uid
+                              ? "authorProfileURL"
+                              : "otherProfileURL"
+                          }
+                          src={photoURL}
+                          alt="profile_picture"
+                        />
                       </div>
                     </div>
-                  )
+                    <br />
+                    <div className="chat__message__body">
+                      {type === "emoji" ? (
+                        <span className="sentEmoji">{text}</span>
+                      ) : null}
+                      {type === "image" ? (
+                        <img className="sentImage" src={text} alt="sentImage" />
+                      ) : null}
+                      {type === "text" ? (
+                        <span className="sentText">{text}</span>
+                      ) : null}
+                    </div>
+                    <br />
+                    <div
+                      className={bruh === uid ? "authorFooter" : "otherFooter"}
+                    >
+                      <div className="chat_message_user_id">
+                        <span className="user_uid">{uid}</span>
+                      </div>
+                      <div className="chat_message_time">
+                        <span className="time">{time}</span>
+                      </div>
+                    </div>
+                  </div>
+                )
               )}
             </div>
-            {banState ? <p>You cant send messages while banned</p> : (
+            {banState ? (
+              <p className="banBanned">You cant send messages while banned</p>
+            ) : (
               <div id="send__content">
                 <div id="send_message">
                   <SendMessage />

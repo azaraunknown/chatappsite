@@ -1,8 +1,10 @@
 // File by: Griffin
+// Liam did things for css
 import React from "react";
 import { Button } from "@material-ui/core";
 import firebase from "firebase/compat/app";
 import { auth, db } from "../firebase.js";
+import "../App.css"
 
 function SignIn() {
   function signInWithGoogle() {
@@ -35,9 +37,18 @@ function SignIn() {
   }
 
   return (
-    <div>
-      <Button onClick={signInWithGoogle}>Sign In With Google</Button>
-    </div>
+    <>
+      <div className="login__page">
+        <div className="login__page__header">
+        <img src="https://firebasestorage.googleapis.com/v0/b/fancy-chat-app-azara.appspot.com/o/logofinal.png?alt=media&token=f2ea3f6d-be2f-48ac-8fac-d60325219856" className="loading" alt="logo" />
+          </div>
+        <div className="login__page__body">
+          <Button variant="contained" color="primary" onClick={signInWithGoogle}>
+            Sign In
+          </Button>
+          </div>
+        </div>
+    </>
   );
 }
 

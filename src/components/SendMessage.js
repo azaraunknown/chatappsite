@@ -931,7 +931,7 @@ function SendMessage() {
         </Button>
         <Button type="submit">Send</Button>
       </form>
-    </div>
+    </div>  
   );
 }
 
