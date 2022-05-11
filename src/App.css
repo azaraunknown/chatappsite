@@ -46,11 +46,10 @@ html {
 .image__component{
     position: absolute;
     margin: auto;
-    top: 0;
-    left: 90%;
-    right: 0;
-    bottom: 10%;
+    vertical-align: middle;
+    top: 8px;
 }
+
 .chat__header {
     color: #fff;
     padding: 15px;

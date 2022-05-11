@@ -83,7 +83,6 @@ function Chat() {
                   type,
                   role,
                   time,
-                  banState,
                 }) => (
                   <div
                     className={bruh === uid ? "authorMessage" : "otherMessage"}
@@ -149,8 +148,8 @@ function Chat() {
               <div id="send__content">
                 <div id="send_message">
                   <SendMessage />
-                  <br />
                   <UploadImage className="sendImage" />
+                  <br />
                 </div>
               </div>
             )}

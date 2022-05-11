@@ -10,6 +10,10 @@ function UploadImage() {
   const [role, setRole] = useState("");
   const onFileChange = (e) => {
     const file = e.target.files[0];
+    if (file.type.split("/")[0] !== "image") {
+      alert("Please select an image file");
+      return;
+    }
     const storageRef = app.storage().ref();
     const fileRef = storageRef.child(file.name);
     fileRef.put(file).then(() => {
@@ -47,12 +51,10 @@ function UploadImage() {
   }
 
   return (
-    <>
-      <Button component="label" className="image__component" variant="contained" color="secondary">
-        Upload File
+    <Button component="label" className="image__component">
+        📎
         <input type="file" onChange={onFileChange} hidden/>
       </Button>
-    </>
   );
 }
 

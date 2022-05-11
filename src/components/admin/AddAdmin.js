@@ -1,5 +1,5 @@
 // File by: Griffin
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { db, auth } from "../../firebase";
 import { Button } from "@material-ui/core";
 import firebase from "firebase/compat/app";
@@ -7,6 +7,13 @@ import firebase from "firebase/compat/app";
 function AddAdmin() {
   var [adminUID, setAdminUID] = useState("");
   var { displayName } = auth.currentUser;
+
+  useEffect(() => {
+    db.collection("administrators").onSnapshot((snapshot) => {
+      setAdminUID(snapshot.docs.map((doc) => doc.data().uid));
+    }
+    );
+  }, []);
 
   return (
     <>
