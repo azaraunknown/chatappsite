@@ -123,7 +123,6 @@ function AdminPanel() {
           >
             Send System Message
           </Button>
-
         </div>
         <div id="banuser" style={styles}>
           <BanUser />

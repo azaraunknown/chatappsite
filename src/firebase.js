@@ -1,4 +1,5 @@
 // File by: Griffin
+var admin = require("firebase-admin");
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
@@ -19,4 +20,14 @@ const app = firebase.initializeApp(firebaseConfig);
 const db = app.firestore();
 const auth = app.auth();
 
-export { auth, db, app};
+
+
+var serviceAccount = require("src/fancy-chat-app-azara-firebase-adminsdk-emfp2-66fe09083f.json");
+
+const adminConfig={
+  credential: admin.credential.cert(serviceAccount),
+};
+
+const adminApp = initializeApp(adminConfig);
+
+export { auth, db, app, adminApp };
