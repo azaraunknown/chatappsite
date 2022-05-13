@@ -1,5 +1,4 @@
 // File by: Griffin
-var admin = require("firebase-admin");
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
@@ -11,8 +10,8 @@ const firebaseConfig = {
   projectId: "fancy-chat-app-azara",
   storageBucket: "fancy-chat-app-azara.appspot.com",
   messagingSenderId: "925848375019",
-  appId: "1:925848375019:web:8ffd546626455e6ba338ae",
-  measurementId: "G-VVV5M0Z2GN"
+  appId: "1:925848375019:web:924df6b758908144a338ae",
+  measurementId: "G-ZHJ9LP4NRR"
 };
 
 const app = firebase.initializeApp(firebaseConfig);
@@ -21,13 +20,4 @@ const db = app.firestore();
 const auth = app.auth();
 
 
-
-var serviceAccount = require("src/fancy-chat-app-azara-firebase-adminsdk-emfp2-66fe09083f.json");
-
-const adminConfig={
-  credential: admin.credential.cert(serviceAccount),
-};
-
-const adminApp = initializeApp(adminConfig);
-
-export { auth, db, app, adminApp };
+export { auth, db, app };
