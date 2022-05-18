@@ -15,6 +15,7 @@ function SendMessage() {
 
   const onEmojiClick = (event, emojiObject) => {
     setMsg(msg + emojiObject.emoji);
+    document.getElementById("message__input").focus();
   };
 
   function randomEmoji() {
@@ -61,7 +62,7 @@ function SendMessage() {
       "😎",
       "😴",
       "😵",
-      "😲"
+      "😲",
     ];
     var randomNumber = Math.floor(Math.random() * possiblePicks.length);
     return possiblePicks[randomNumber];
@@ -77,8 +78,7 @@ function SendMessage() {
     let emoji = randomEmoji();
     let spanTag = document.getElementById("changeMe");
     spanTag.innerHTML = emoji;
-  }
-  );
+  });
 
   async function sendMessage(e) {
     e.preventDefault();
@@ -119,8 +119,7 @@ function SendMessage() {
         }
       });
 
-    db
-      .collection("messages")
+    db.collection("messages")
       .add({
         text: msg,
         name: displayName,
@@ -146,9 +145,11 @@ function SendMessage() {
           value={msg}
           onChange={(e) => setMsg(e.target.value)}
           placeholder="Message..."
+          id="message__input"
         />
         <Button
           className="emojiButon"
+          id="emoji_buton"
           onClick={() => {
             var x = document.getElementById("chose__emoji");
             if (x.style.display === "none") {
@@ -161,9 +162,11 @@ function SendMessage() {
         >
           <span id="changeMe">Send Emoji</span>
         </Button>
-        <Button type="submit">Send</Button>
+        <Button type="submit" id="sendMessageButton">
+          Send
+        </Button>
       </form>
-    </div>  
+    </div>
   );
 }
 
