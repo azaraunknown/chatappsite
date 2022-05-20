@@ -7,7 +7,7 @@ function AdminUI() {
     const currentUser = auth.currentUser;
     const [isAdmin, setIsAdmin] = useState(false);
     useEffect(() => {
-        db.collection("administrators").doc(currentUser.uid).get().then(doc => {
+        db.collection("administrators").doc(currentUser.uid).onSnapshot((doc) => {
             if (doc.exists) {
                 setIsAdmin(true);
             } else {

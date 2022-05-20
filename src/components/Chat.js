@@ -60,15 +60,15 @@ function Chat() {
         <div className="chat">
           <div className="chat__header">
             <div className="important">
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => setAutoScroll(!autoScroll)}
-            >
-              {autoScroll ? "Disable" : "Enable"} Auto Scroll
-            </Button>
-            <AdminUI />
-            <SignOut className="align-left"/>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => setAutoScroll(!autoScroll)}
+              >
+                {autoScroll ? "Disable" : "Enable"} Auto Scroll
+              </Button>
+              <AdminUI />
+              <SignOut className="align-left" />
             </div>
           </div>
           <div id="chat__box__panel">
@@ -83,62 +83,73 @@ function Chat() {
                   type,
                   role,
                   time,
+                  chatRoom,
                 }) => (
-                  <div
-                    className={bruh === uid ? "authorMessage" : "otherMessage"}
-                    key={id}
-                  >
-                    <div className="chat__message__header">
                       <div
-                        className={bruh === uid ? "authorName" : "otherName"}
+                        className={
+                          bruh === uid ? "authorMessage" : "otherMessage"
+                        }
+                        key={id}
                       >
-                        {role === "system" && uid === "system" ? (
-                          <span className="system_name">{name}</span>
-                        ) : null}
-                        {role === "admin" && uid !== "system" ? (
-                          <span className="admin_name">{name}</span>
-                        ) : null}
-                        {role !== "admin" && uid !== "system" ? (
-                          <span className="user_name">{name}</span>
-                        ) : null}
-                      </div>
-                      <br />
-                      <div className="chat__message__header__profile_picture">
-                        <img
+                        <div className="chat__message__header">
+                          <div
+                            className={
+                              bruh === uid ? "authorName" : "otherName"
+                            }
+                          >
+                            {role === "system" && uid === "system" ? (
+                              <span className="system_name">{name}</span>
+                            ) : null}
+                            {role === "admin" && uid !== "system" ? (
+                              <span className="admin_name">{name}</span>
+                            ) : null}
+                            {role !== "admin" && uid !== "system" ? (
+                              <span className="user_name">{name}</span>
+                            ) : null}
+                          </div>
+                          <br />
+                          <div className="chat__message__header__profile_picture">
+                            <img
+                              className={
+                                bruh === uid
+                                  ? "authorProfileURL"
+                                  : "otherProfileURL"
+                              }
+                              src={photoURL}
+                              alt="profile_picture"
+                            />
+                          </div>
+                        </div>
+                        <br />
+                        <div className="chat__message__body">
+                          {type === "emoji" ? (
+                            <span className="sentEmoji">{text}</span>
+                          ) : null}
+                          {type === "image" ? (
+                            <img
+                              className="sentImage"
+                              src={text}
+                              alt="sentImage"
+                            />
+                          ) : null}
+                          {type === "text" ? (
+                            <span className="sentText">{text}</span>
+                          ) : null}
+                        </div>
+                        <br />
+                        <div
                           className={
-                            bruh === uid
-                              ? "authorProfileURL"
-                              : "otherProfileURL"
+                            bruh === uid ? "authorFooter" : "otherFooter"
                           }
-                          src={photoURL}
-                          alt="profile_picture"
-                        />
+                        >
+                          <div className="chat_message_user_id">
+                            <span className="user_uid">{uid}</span>
+                          </div>
+                          <div className="chat_message_time">
+                            <span className="time">{time}</span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <br />
-                    <div className="chat__message__body">
-                      {type === "emoji" ? (
-                        <span className="sentEmoji">{text}</span>
-                      ) : null}
-                      {type === "image" ? (
-                        <img className="sentImage" src={text} alt="sentImage" />
-                      ) : null}
-                      {type === "text" ? (
-                        <span className="sentText">{text}</span>
-                      ) : null}
-                    </div>
-                    <br />
-                    <div
-                      className={bruh === uid ? "authorFooter" : "otherFooter"}
-                    >
-                      <div className="chat_message_user_id">
-                        <span className="user_uid">{uid}</span>
-                      </div>
-                      <div className="chat_message_time">
-                        <span className="time">{time}</span>
-                      </div>
-                    </div>
-                  </div>
                 )
               )}
             </div>

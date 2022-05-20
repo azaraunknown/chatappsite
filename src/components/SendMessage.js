@@ -1,5 +1,5 @@
 // File by: Griffin
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { db, auth } from "../firebase.js";
 import firebase from "firebase/compat/app";
 import Picker from "emoji-picker-react";
@@ -87,6 +87,7 @@ function SendMessage() {
       alert("Your message is too long, the limit is 2000 characters");
       return;
     }
+
     const { displayName, photoURL, uid } = auth.currentUser;
 
     await db

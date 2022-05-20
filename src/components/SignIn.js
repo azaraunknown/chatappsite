@@ -71,7 +71,10 @@ function SignIn() {
   }, [count]);
   
   async function sinInWithGitHub() {
-    if (allowSignIn || signInBypass) {
+    if (!allowSignIn || !signInBypass) {
+      alert("Sign in is not allowed at this time.");
+      return null;
+    }
       const provider = new firebase.auth.GithubAuthProvider();
       firebase
         .auth()
@@ -114,9 +117,6 @@ function SignIn() {
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           });
         });
-    } else {
-      alert("Sign in is not allowed at this time.");
-    }
   }
 
   async function signInWithGoogle() {
@@ -128,6 +128,7 @@ function SignIn() {
           .doc(uid)
           .get()
           .then((doc) => {
+
             if (doc.exists) {
               db.collection("users").doc(uid).set({
                 displayName: displayName,
